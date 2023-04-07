@@ -30,7 +30,11 @@ public class AuthController {
     public JwtResponse getToken(@RequestBody AuthRequest authRequest) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authenticate.isAuthenticated()) {
-            return new JwtResponse(service.generateToken(authRequest.getUsername())) ;
+        	String token=service.generateToken(authRequest.getUsername());
+            JwtResponse response= new JwtResponse() ;
+            response.setJwttoken(token);
+            return response;
+
         } else {
             throw new RuntimeException("invalid access");
         }
